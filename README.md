@@ -59,7 +59,7 @@ The system is built with a role-based architecture, ensuring different functiona
 ## ⚙️ Installation
 
 1. Clone the repository:
-   git clone https://github.com/yourusername/AgroShare.git
+   git clone https://github.com/Anuvarshini2212/AgroShare.git
 
 2. Install dependencies:
    npm install
@@ -76,10 +76,9 @@ The system is built with a role-based architecture, ensuring different functiona
 ## 🎯 Future Enhancements
 - Real-time booking and availability tracking
 - GPS-based transport helper matching
-- Rating & review system
+- Review system
 - Mobile application support
 
 ---
 
-## 📬 Contact
-Feel free to connect with me on LinkedIn for feedback or collaboration.
+
