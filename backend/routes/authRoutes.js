@@ -1,0 +1,68 @@
+const express = require("express");
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+const User = require("../models/User");
+
+const router = express.Router();
+const generateToken = (user) => {
+  return jwt.sign(
+    { id: user._id, role: user.role }, 
+    process.env.JWT_SECRET || "agroshare_secret",
+    { expiresIn: "30d" }
+  );
+};
+router.post("/signup", async (req, res) => {
+  try {
+    const { name, email, password, role, phone } = req.body;
+
+    const existing = await User.findOne({ email });
+    if (existing) {
+      return res.status(400).json({ message: "User already exists" });
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 10); 
+
+    const user = await User.create({
+      name,
+      email,
+      password: hashedPassword,
+      role,
+      phone,
+    });
+
+    res.json(user);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ message: "Signup error" });
+  }
+});
+
+router.post("/login", async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    const user = await User.findOne({ email });
+
+    if (!user) {
+      return res.status(400).json({ message: "User not found" });
+    }
+
+    const isMatch = await bcrypt.compare(password, user.password);
+
+    if (!isMatch) {
+      return res.status(400).json({ message: "Wrong password" });
+    }
+
+    res.json({
+      token: generateToken(user),
+      user,
+    });
+
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ message: "Login error" });
+  }
+});
+
+
+module.exports = router;
