@@ -15,35 +15,11 @@ const app = express();
 // =======================
 // CORS Configuration
 // =======================
-const allowedOrigins = [
-  "http://localhost:5173",
-  "https://agro-share.vercel.app",
-  "https://agro-share-ncaqfs381-v-anuvarshinis-projects.vercel.app",
-];
+const cors = require("cors");
 
-app.use(
-  cors({
-    origin: function (origin, callback) {
-      // Allow requests with no origin (Postman, mobile apps)
-      if (!origin) return callback(null, true);
-
-      if (allowedOrigins.includes(origin)) {
-        return callback(null, true);
-      }
-
-      return callback(new Error("Not allowed by CORS"));
-    },
-    credentials: true,
-    methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization"],
-  })
-);
-
-// Handle preflight requests
-app.options("*", cors());
+app.use(cors());
 
 app.use(express.json());
-
 // =======================
 // Routes
 // =======================
