@@ -21,7 +21,7 @@ function Signup() {
     console.log("Signup success:", res.data);
 
     alert("Account created successfully!");
-    window.location.href = "/login";
+    navigate("/login");
 
 
   } catch (err) {
