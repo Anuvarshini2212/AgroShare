@@ -47,7 +47,7 @@ function ListEquipment() {
     console.log("Equipment created:", res.data);
 
     alert("Equipment listed successfully!");
-    navigate("/owner-dashboard"); // keep/change this to your actual owner page
+    navigate("/"); // keep/change this to your actual owner page
 
   } catch (err) {
     console.error("UPLOAD ERROR:", err.response?.data || err.message);
