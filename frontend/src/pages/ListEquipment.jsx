@@ -22,29 +22,35 @@ function ListEquipment() {
   const handleSubmit = async (e) => {
   e.preventDefault();
 
-  const user = JSON.parse(localStorage.getItem("user")); 
+  const user = JSON.parse(localStorage.getItem("user"));
 
   const formData = new FormData();
+
   formData.append("name", form.name);
   formData.append("category", form.category);
   formData.append("pricePerDay", form.pricePerDay);
   formData.append("location", form.location);
   formData.append("availableDate", form.availableDate);
   formData.append("rating", form.rating);
-  formData.append("ownerId", user._id); 
+  formData.append("ownerId", user._id);
 
   if (form.image) {
     formData.append("image", form.image);
   }
 
+  console.log("Selected image:", form.image);
+  console.log("Image name:", form.image?.name);
+
   try {
-    await API.post("/equipment", formData, {
-      headers: { "Content-Type": "multipart/form-data" }
-    });
+    const res = await API.post("/equipment", formData);
+
+    console.log("Equipment created:", res.data);
 
     alert("Equipment listed successfully!");
+    navigate("/owner-dashboard"); // keep/change this to your actual owner page
+
   } catch (err) {
-    console.error(err.response?.data || err.message);
+    console.error("UPLOAD ERROR:", err.response?.data || err.message);
     alert("Error uploading equipment");
   }
 };
