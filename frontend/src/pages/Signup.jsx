@@ -25,9 +25,9 @@ function Signup() {
 
 
   } catch (err) {
-    console.log("Signup error:", err.response?.data);
-    alert("Error creating account");
-  }
+  console.log("Signup error:", err.response?.data);
+  alert(err.response?.data?.message || "Error creating account");
+}
 };
 
   return (
