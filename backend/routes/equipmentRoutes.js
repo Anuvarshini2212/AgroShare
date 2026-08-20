@@ -18,6 +18,7 @@ router.post("/", upload.single("image"), async (req, res) => {
     }
 
     console.log("Creating equipment for owner:", ownerId);
+    console.log("Uploaded file:", req.file);
 
     const equipment = await Equipment.create({
       name,
@@ -25,7 +26,8 @@ router.post("/", upload.single("image"), async (req, res) => {
       pricePerDay,
       location,
 
-      image: "",
+      // Save uploaded image path
+      image: req.file ? `/uploads/${req.file.filename}` : "",
 
       owner: ownerId
     });

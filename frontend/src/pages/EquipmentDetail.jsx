@@ -106,21 +106,21 @@ function EquipmentDetail() {
       }}
     >
       {/* IMAGE */}
-      <img
-        src={
-          equipment.image
-            ? `http://localhost:5000${equipment.image}`
-            : "https://via.placeholder.com/300"
-        }
-        alt="equipment"
-        style={{
-          width: "350px",
-          height: "250px",
-          objectFit: "cover",
-          borderRadius: "12px",
-          boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
-        }}
-      />
+    <img
+  src={
+    equipment.image
+      ? `https://agroshare-0j9k.onrender.com${equipment.image}`
+      : "https://via.placeholder.com/300"
+  }
+  alt="equipment"
+  style={{
+    width: "350px",
+    height: "250px",
+    objectFit: "cover",
+    borderRadius: "12px",
+    boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
+  }}
+/>
 
       {/* DETAILS */}
       <div

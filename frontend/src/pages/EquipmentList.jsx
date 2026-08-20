@@ -78,11 +78,11 @@ function EquipmentList() {
             
             {/* IMAGE */}
             <img
-  src={
-    eq.image
-      ? `http://localhost:5000${eq.image}`  // 👈 FIXED BASE URL
-      : "https://via.placeholder.com/200"
-  }
+ src={
+  eq.image
+    ? `https://agroshare-0j9k.onrender.com${eq.image}`
+    : "https://via.placeholder.com/200"
+}
   alt="equipment"
 />
 
