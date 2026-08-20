@@ -15,11 +15,16 @@ const app = express();
 // =======================
 // CORS Configuration
 // =======================
-const cors = require("cors");
-
-app.use(cors());
+app.use(
+  cors({
+    origin: "https://agro-share.vercel.app",
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+  })
+);
 
 app.use(express.json());
+
 // =======================
 // Routes
 // =======================
@@ -30,9 +35,14 @@ app.use("/api/rentals", rentalRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/payment", paymentRoutes);
 
+// =======================
+// Uploaded Images
+// =======================
 app.use("/uploads", express.static("uploads"));
 
+// =======================
 // Health Check
+// =======================
 app.get("/", (req, res) => {
   res.json({
     success: true,
