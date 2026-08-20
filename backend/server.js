@@ -19,16 +19,20 @@ const allowedOrigins = [
 
 app.use(
   cors({
-    origin: allowedOrigins,
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"]
   })
 );
 
 app.use(express.json());
-// =======================
-// Routes
-// =======================
+
 app.use("/api/auth", authRoutes);
 app.use("/api/equipment", equipmentRoutes);
 app.use("/api/transport", transportRoutes);
@@ -36,24 +40,15 @@ app.use("/api/rentals", rentalRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/payment", paymentRoutes);
 
-// =======================
-// Uploaded Images
-// =======================
 app.use("/uploads", express.static("uploads"));
 
-// =======================
-// Health Check
-// =======================
 app.get("/", (req, res) => {
   res.json({
     success: true,
-    message: "AgroShare API Running 🚀",
+    message: "AgroShare API Running 🚀"
   });
 });
 
-// =======================
-// MongoDB Connection
-// =======================
 mongoose
   .connect(process.env.MONGO_URI)
   .then(() => {
