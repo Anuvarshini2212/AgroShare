@@ -4,7 +4,7 @@ const Equipment = require("../models/Equipment");
 const upload = require("../middleware/upload");
 const crypto = require("crypto");
 const mongoose = require("mongoose");
-
+const auth = require("../middleware/auth");
 router.post("/", upload.single("image"), async (req, res) => {
   try {
     const { name, category, pricePerDay, location, ownerId } = req.body;
@@ -99,28 +99,45 @@ router.put("/:id", async (req, res) => {
   }
 });
 
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", auth, async (req, res) => {
   try {
     const { id } = req.params;
 
     if (!mongoose.Types.ObjectId.isValid(id)) {
-      return res.status(400).json({ message: "Invalid Equipment ID" });
+      return res.status(400).json({
+        message: "Invalid Equipment ID"
+      });
     }
 
-    const deleted = await Equipment.findByIdAndDelete(id);
+    const equipment = await Equipment.findById(id);
 
-    if (!deleted) {
-      return res.status(404).json({ message: "Equipment not found" });
+    if (!equipment) {
+      return res.status(404).json({
+        message: "Equipment not found"
+      });
     }
 
-    res.json({ message: "Equipment deleted successfully" });
+    // Check whether the logged-in user owns this equipment
+    if (equipment.owner.toString() !== req.user.id) {
+      return res.status(403).json({
+        message: "You are not authorized to delete this equipment"
+      });
+    }
+
+    await Equipment.findByIdAndDelete(id);
+
+    res.json({
+      message: "Equipment deleted successfully"
+    });
 
   } catch (err) {
     console.error("DELETE ERROR:", err);
-    res.status(500).json({ message: "Delete failed" });
+
+    res.status(500).json({
+      message: "Delete failed"
+    });
   }
 });
-
 
 router.post("/verify-payment", (req, res) => {
   try {

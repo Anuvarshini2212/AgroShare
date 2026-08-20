@@ -11,6 +11,7 @@ import Home from "./pages/Home";
 import EquipmentList from "./pages/EquipmentList";
 import EquipmentDetail from "./pages/EquipmentDetail";
 import ListEquipment from "./pages/ListEquipment";
+import MyEquipment from "./pages/MyEquipment";
 import MyRentals from "./pages/MyRentals";
 import TransportRegister from "./pages/TransportRegister";
 import Signup from "./pages/Signup";
@@ -71,7 +72,14 @@ function App() {
             </ProtectedRoute>
           }
         />
-
+<Route
+  path="/my-equipment"
+  element={
+    <ProtectedRoute>
+      <MyEquipment />
+    </ProtectedRoute>
+  }
+/>
         <Route
           path="/my-rentals"
           element={

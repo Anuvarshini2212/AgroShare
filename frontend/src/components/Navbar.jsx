@@ -27,12 +27,13 @@ function Navbar() {
   </>
 )}
 
-        {user.role === "owner" && (
-          <>
-            <Link to="/list-equipment">List Equipment</Link>
-            <Link to="/my-rentals">Rental Requests</Link>
-          </>
-        )}
+       {user.role === "owner" && (
+  <>
+    <Link to="/list-equipment">List Equipment</Link>
+    <Link to="/my-equipment">My Equipment</Link>
+    <Link to="/my-rentals">Rental Requests</Link>
+  </>
+)}
 
         {user.role === "transport" && (
   <>

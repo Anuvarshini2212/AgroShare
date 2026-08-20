@@ -1237,3 +1237,125 @@ body {
   opacity: 0.9;
   margin-right: 560px;
 }
+/* My Equipment */
+
+.my-equipment-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 30px 25px;
+}
+
+.my-equipment-title {
+  text-align: center;
+  margin-bottom: 30px;
+  font-size: 32px;
+}
+
+/* Side-by-side cards */
+
+.equipment-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 25px;
+}
+
+/* Equipment card */
+
+.equipment-card {
+  background: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+/* Image */
+
+.equipment-image {
+  width: 100%;
+  height: 230px;
+  object-fit: cover;
+  display: block;
+}
+
+/* Details */
+
+.equipment-info {
+  padding: 20px;
+}
+
+.equipment-info h3 {
+  margin: 0 0 15px;
+  font-size: 24px;
+}
+
+.equipment-info p {
+  margin: 10px 0;
+  font-size: 17px;
+}
+
+/* Delete button */
+
+.delete-btn {
+  width: 100%;
+  margin-top: 15px;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  background: #dc3545;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.delete-btn:hover {
+  background: #b02a37;
+}
+
+/* Empty state */
+
+.empty-equipment {
+  text-align: center;
+  margin-top: 50px;
+}
+
+/* Mobile */
+
+@media (max-width: 768px) {
+  .equipment-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .my-equipment-title {
+    font-size: 26px;
+  }
+}
+
+.transport-btn {
+  background: #2563eb;
+  color: white;
+  padding: 9px 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.transport-btn:hover {
+  background: #1d4ed8;
+}
+
+.pending-transport {
+  color: #d97706;
+  font-weight: 600;
+  background: #fff7ed;
+  padding: 10px;
+  border-radius: 8px;
+  margin-top: 10px;
+}
+
+.rejected-transport {
+  color: #dc2626;
+  font-weight: 600;
+}

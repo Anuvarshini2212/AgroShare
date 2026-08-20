@@ -44,7 +44,6 @@ function TransportList() {
   }
 
   try {
-    // 1. Create request
     await API.post("/transport/request", {
       helperId,
       farmerId: user._id,
@@ -54,18 +53,20 @@ function TransportList() {
       transportDate: new Date(),
     });
 
-    // 2. 🔥 UPDATE RENTAL (THIS FIXES YOUR ISSUE)
-    await API.put(`/rentals/${rentalId}/assign-transport`, {
-      transportId: helperId,
-    });
-
-    alert("✅ Transport requested");
+    alert("✅ Transport request sent to helper");
 
     navigate("/my-rentals");
 
   } catch (err) {
-    console.error(err);
-    alert("Error requesting transport ❌");
+    console.error(
+      "Transport request error:",
+      err.response?.data || err.message
+    );
+
+    alert(
+      err.response?.data?.message ||
+      "Error requesting transport ❌"
+    );
   }
 };
 

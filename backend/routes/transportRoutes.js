@@ -7,7 +7,7 @@ const Equipment = require("../models/Equipment");
 const TransportRequest = require("../models/TransportRequest");
 const upload = require("../middleware/upload");
 const Rental = require("../models/Rental");
-
+const auth = require("../middleware/auth");
 // GET ALL TRANSPORT HELPERS
 router.get("/", async (req, res) => {
   try {
@@ -82,25 +82,69 @@ router.post("/request", async (req, res) => {
 });
 
 /* UPDATE STATUS */
-router.put("/update-status/:requestId", async (req, res) => {
+router.put("/update-status/:requestId", auth, async (req, res) => {
   try {
     const { status } = req.body;
 
-    const request = await TransportRequest.findById(req.params.requestId);
+    // Only these two status changes are allowed
+    if (!["approved", "rejected"].includes(status)) {
+      return res.status(400).json({
+        message: "Invalid transport status"
+      });
+    }
+
+    const request = await TransportRequest.findById(
+      req.params.requestId
+    );
+
+    if (!request) {
+      return res.status(404).json({
+        message: "Transport request not found"
+      });
+    }
+
+    // Only the assigned helper can approve/reject
+    if (request.helper.toString() !== req.user.id) {
+      return res.status(403).json({
+        message: "You are not authorized to update this request"
+      });
+    }
+
+    // Request must still be pending
+    if (request.status !== "pending") {
+      return res.status(400).json({
+        message: "This request has already been processed"
+      });
+    }
 
     request.status = status;
     await request.save();
 
+    // Update rental
     await Rental.findByIdAndUpdate(request.rental, {
-      transportStatus: status === "approved" ? "approved" : "rejected",
-      transport: status === "approved" ? request.helper : null,
+      transportStatus:
+        status === "approved" ? "approved" : "rejected",
+
+      transport:
+        status === "approved"
+          ? request.helper
+          : null
     });
 
-    res.json(request);
+    res.json({
+      message:
+        status === "approved"
+          ? "Transport request approved"
+          : "Transport request rejected",
+      request
+    });
 
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: err.message });
+    console.error("TRANSPORT STATUS ERROR:", err);
+
+    res.status(500).json({
+      message: err.message
+    });
   }
 });
 
